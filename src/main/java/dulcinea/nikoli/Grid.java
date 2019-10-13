@@ -9,7 +9,7 @@ public class Grid {
     private List<Region> regions;
     private List<List<Cell>> cells;
 
-    public Grid(Integer width, Integer height) {
+    public Grid(Integer width, Integer height, List<List<Cell>> cells) {
         this.width = width;
         this.height = height;
         this.regions = new ArrayList<>();

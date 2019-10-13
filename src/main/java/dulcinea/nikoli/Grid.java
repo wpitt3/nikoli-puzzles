@@ -12,15 +12,8 @@ public class Grid {
     public Grid(Integer width, Integer height, List<List<Cell>> cells) {
         this.width = width;
         this.height = height;
-        this.regions = new ArrayList<>();
-        this.cells = new ArrayList<>();
-    }
-
-    public Grid(Integer width, Integer height, List<Region> regions, List<List<Cell>> cells) {
-        this.width = width;
-        this.height = height;
-        this.regions = regions;
         this.cells = cells;
+        this.regions = new ArrayList<>();
     }
 
     public Integer getWidth() {
@@ -43,7 +36,16 @@ public class Grid {
         return cells;
     }
 
-    public void setCells(List<List<Cell>> cells) {
-        this.cells = cells;
+    public void setCell(Integer x, Integer y, Cell cell) {
+        cells.get(x).set(y, cell);
     }
+
+    public void setCell(Integer x, Integer y, Integer value) {
+        cells.get(x).get(y).setValue(value);
+    }
+
+    public Cell getCell(Integer x, Integer y) {
+        return cells.get(x).get(y);
+    }
+
 }

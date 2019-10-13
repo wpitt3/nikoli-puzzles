@@ -3,6 +3,10 @@ package dulcinea.nikoli;
 public class Cell {
     private Integer value;
 
+    public Cell() {
+        this.value = null;
+    }
+
     public Cell(Integer value) {
         this.value = value;
     }

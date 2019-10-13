@@ -1,14 +1,20 @@
 package dulcinea.nikoli;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Region {
     private List<Cell> cells;
     private Integer total;
 
-    public Region(List<Cell> cells, Integer total) {
-        this.cells = cells;
+    public Region(Integer total) {
+        this.cells = new ArrayList<>();
         this.total = total;
+    }
+
+    public Region(Integer total, List<Cell> cells) {
+        this.total = total;
+        this.cells = cells;
     }
 
     public List<Cell> getCells() {

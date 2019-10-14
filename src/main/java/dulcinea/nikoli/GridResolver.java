@@ -4,9 +4,7 @@ import dulcinea.nikoli.builder.Cell;
 import dulcinea.nikoli.builder.Grid;
 import dulcinea.nikoli.builder.Region;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -15,19 +13,34 @@ public class GridResolver {
     public static Grid resolveGrid(Grid grid) {
         setupGrid(grid);
 
-        checkForNakedSingles(grid.getFlatCells());
-        checkForHiddenSingles(grid.getRegions());
-
+        exastivelyCheckForSingles(getAllCells(grid));
 
         return grid;
     }
 
+    private static List<Cell> getAllCells(Grid grid) {
+        return grid.getFlatCells().stream().filter(cell -> cell != null).collect(Collectors.toList());
+    }
+
     private static void setupGrid(Grid grid) {
-        grid.getFlatCells().forEach(cell -> {
+        getAllCells(grid).forEach(cell -> {
             if (cell.getValue() != null) {
                 onCellValueUpdate(cell);
             }
         });
+    }
+
+    private static List<Cell> exastivelyCheckForSingles(List<Cell> updated) {
+        while (updated.size() > 0) {
+            updated = checkForSingles(updated);
+        }
+        return updated;
+    }
+
+    private static List<Cell> checkForSingles(List<Cell> updatedCells) {
+        List<Cell> updated = checkForNakedSingles(updatedCells);
+        updated.addAll(checkForHiddenSingles(getSharedRegions(updatedCells)));
+        return updated.stream().distinct().collect(Collectors.toList());
     }
 
     private static List<Cell> checkForNakedSingles(List<Cell> cells) {
@@ -73,9 +86,17 @@ public class GridResolver {
             .collect(Collectors.toList());
     }
 
+    private static List<Region> getSharedRegions(List<Cell> cells) {
+        return cells.stream()
+                .map(Cell::getRegions)
+                .flatMap(List::stream)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
     private static List<Cell> getCellsInSameRegion(Cell cell) {
         return cell.getRegions().stream()
-                .map(region -> region.getCells())
+                .map(Region::getCells)
                 .flatMap(List::stream)
                 .distinct()
                 .collect(Collectors.toList());

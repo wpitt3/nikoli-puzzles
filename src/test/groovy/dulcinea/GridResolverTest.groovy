@@ -12,7 +12,6 @@ class GridResolverTest extends Specification {
           Grid grid = grid()
           grid.cells[0][0].value = 3
           Grid result = GridResolver.resolveGrid(grid)
-          println(result.printPossibles())
         
         then:
           result.cells[0][0].value == 3
@@ -36,8 +35,7 @@ class GridResolverTest extends Specification {
           grid.cells[6][0].value = 7
         
           Grid result = GridResolver.resolveGrid(grid)
-          println(result.printPossibles())
-    
+        
         then:
           result.cells[0][0]
           result.cells[0][0].value == 9
@@ -53,7 +51,7 @@ class GridResolverTest extends Specification {
           grid.cells[7][2].value = 1
         
           Grid result = GridResolver.resolveGrid(grid)
-          println(result.printPossibles())
+          
         then:
           result.cells[0][0].value == 1
         
@@ -62,5 +60,4 @@ class GridResolverTest extends Specification {
     Grid grid() {
         return GridBuilder.build(9, 9, [], [], true)
     }
-    
 }

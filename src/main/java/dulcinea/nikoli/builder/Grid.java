@@ -55,9 +55,13 @@ public class Grid {
         return cells.get(x).get(y);
     }
 
+    boolean isComplete() {
+        return cells.stream().flatMap(List::stream).allMatch(cell -> cell == null || cell.getValue()!= null);
+    }
+
     String printCells() {
         return "#" + runXFTimes(height, "#\n#", (y -> runXFTimes(width, "", ( x ->
-                this.getCell(x, y).getValue() != null ? this.getCell(x, y).getValue().toString() : " "
+                this.getCell(x, y) != null && this.getCell(x, y).getValue() != null ? this.getCell(x, y).getValue().toString() : " "
         )))) + "#";
     }
 

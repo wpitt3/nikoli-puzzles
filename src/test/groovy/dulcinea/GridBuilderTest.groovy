@@ -1,8 +1,8 @@
 package dulcinea
 
-import dulcinea.nikoli.Cell
-import dulcinea.nikoli.Grid
-import dulcinea.nikoli.GridBuilder
+import dulcinea.nikoli.builder.Cell
+import dulcinea.nikoli.builder.Grid
+import dulcinea.nikoli.builder.GridBuilder
 import spock.lang.Specification
 
 class GridBuilderTest extends Specification {

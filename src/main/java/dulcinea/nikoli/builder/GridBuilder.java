@@ -1,4 +1,4 @@
-package dulcinea.nikoli;
+package dulcinea.nikoli.builder;
 
 import com.google.common.collect.Lists;
 

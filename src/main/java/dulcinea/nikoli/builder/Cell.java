@@ -1,22 +1,19 @@
-package dulcinea.nikoli;
+package dulcinea.nikoli.builder;
+
+import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Cell {
     private Integer value;
-    private boolean[] possibles;
     private List<Region> regions;
+    private List<Integer> possibles;
 
-    public Cell() {
+    protected Cell() {
         this.value = null;
-        this.possibles = new boolean[]{ true,true,true,true,true,true,true,true,true };
+        this.possibles = Lists.newArrayList(1,2,3,4,5,6,7,8,9);
         this.regions = new ArrayList<>();
-    }
-
-    public Cell(Integer value) {
-        this.value = value;
-        this.possibles = null;
     }
 
     public Integer getValue() {
@@ -25,14 +22,14 @@ public class Cell {
 
     public void setValue(Integer value) {
         this.value = value;
-        this.possibles = null;
+        this.possibles = Lists.newArrayList(value);
     }
 
-    public void setImpossible(Integer index) {
-        this.possibles[index] = false;
+    public boolean setImpossible(Integer value) {
+        return this.possibles.remove(value);
     }
 
-    public boolean[] getPossibles() {
+    public List<Integer> getPossibles() {
         return possibles;
     }
 

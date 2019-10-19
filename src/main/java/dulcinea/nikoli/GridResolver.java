@@ -3,6 +3,7 @@ package dulcinea.nikoli;
 import dulcinea.nikoli.builder.Cell;
 import dulcinea.nikoli.builder.Grid;
 import dulcinea.nikoli.builder.Region;
+import dulcinea.nikoli.combinations.PossibleRegionsCalculator;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +15,32 @@ public class GridResolver {
         setupGrid(grid);
 
         exastivelyCheckForSingles(getAllCells(grid));
-
+        grid.getRegions().forEach( region ->
+            PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
+        );
+        exastivelyCheckForSingles(getAllCells(grid));
+        grid.getRegions().forEach( region ->
+                PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
+        );
+        exastivelyCheckForSingles(getAllCells(grid));
+        grid.getRegions().forEach( region ->
+                PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
+        );
+        exastivelyCheckForSingles(getAllCells(grid));
+        grid.getRegions().forEach( region -> {
+            checkForNakedX(region, 2);
+        });
+        grid.getRegions().forEach( region -> {
+            checkForNakedX(region, 3);
+        });
+        grid.getRegions().forEach( region -> {
+            checkForNakedX(region, 4);
+        });
+        exastivelyCheckForSingles(getAllCells(grid));
+        grid.getRegions().forEach( region ->
+                PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
+        );
+        exastivelyCheckForSingles(getAllCells(grid));
         return grid;
     }
 
@@ -30,11 +56,10 @@ public class GridResolver {
         });
     }
 
-    private static List<Cell> exastivelyCheckForSingles(List<Cell> updated) {
+    private static void exastivelyCheckForSingles(List<Cell> updated) {
         while (updated.size() > 0) {
             updated = checkForSingles(updated);
         }
-        return updated;
     }
 
     private static List<Cell> checkForSingles(List<Cell> updatedCells) {
@@ -55,7 +80,8 @@ public class GridResolver {
     }
 
     private static List<Cell> checkForHiddenSingles(List<Region> regions) {
-        return regions.stream().map(region -> {
+
+        return regions.stream().filter(region -> region.getTotal() == 45).map(region -> {
             List<Integer> hiddenSingleValues = findHiddenSingleValue(region);
             return hiddenSingleValues.stream().map( hiddenSingleValue -> {
                 Cell cellWithValue = region.getCells().stream().filter(cell -> cell.getPossibles().contains(hiddenSingleValue)).findFirst().get();
@@ -78,6 +104,22 @@ public class GridResolver {
                 .mapToObj(y -> y)
                 .collect(Collectors.toList());
     }
+
+    private static void checkForNakedX(Region region, Integer x) {
+        List<Cell> cellsWithXPossible = region.getCells().stream()
+                .filter(cell -> cell.getValue() == null && cell.getPossibles().size() <= x)
+                .collect(Collectors.toList());
+        cellsWithXPossible.stream().forEach( cellA -> {
+            List<Cell> nakedDoubles = cellsWithXPossible.stream().filter(cellB -> cellA.getPossibles().equals(cellB.getPossibles())).collect(Collectors.toList());
+            if (nakedDoubles.size() == x) {
+                List<Integer> imPossibles = cellA.getPossibles();
+                region.getCells().stream().filter(cell -> !cell.getPossibles().equals(imPossibles)).forEach(cell ->
+                    imPossibles.stream().forEach( impossible -> cell.setImpossible(impossible))
+                );
+            }
+        });
+    }
+
 
     private static List<Cell> onCellValueUpdate(Cell updatedCell) {
         return getCellsInSameRegion(updatedCell)

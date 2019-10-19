@@ -1,4 +1,4 @@
-package dulcinea
+package dulcinea.nikoli
 
 import dulcinea.nikoli.builder.Grid
 import dulcinea.nikoli.builder.GridBuilder
@@ -55,6 +55,50 @@ class GridResolverTest extends Specification {
         then:
           result.cells[0][0].value == 1
         
+    }
+    
+    void "Region with naked double, all other cells remove double"() {
+        when:
+          Grid grid = grid()
+  
+          grid.cells[0][0].possibles = [1,2]
+          grid.cells[0][1].possibles = [1,2]
+          
+          Grid result = GridResolver.resolveGrid(grid)
+        
+        then:
+          result.cells[0][0].possibles == [1,2]
+          result.cells[0][2].possibles == [3,4,5,6,7,8,9]
+    }
+    
+    void "Region with naked triple, all other cells remove triple"() {
+        when:
+          Grid grid = grid()
+  
+          grid.cells[0][0].possibles = [1,2,3]
+          grid.cells[0][1].possibles = [1,2,3]
+          grid.cells[0][2].possibles = [1,2,3]
+          
+          Grid result = GridResolver.resolveGrid(grid)
+        
+        then:
+          result.cells[0][0].possibles == [1,2,3]
+          result.cells[0][3].possibles == [4,5,6,7,8,9]
+    }
+    
+    void "Region with naked triple all different, all other cells remove triple"() {
+        when:
+          Grid grid = grid()
+          
+          grid.cells[0][0].possibles = [1,2]
+          grid.cells[0][1].possibles = [1,3]
+          grid.cells[0][2].possibles = [2,3]
+          
+          Grid result = GridResolver.resolveGrid(grid)
+        
+        then:
+          result.cells[0][0].possibles == [1,2]
+          result.cells[0][3].possibles == [4,5,6,7,8,9]
     }
     
     Grid grid() {

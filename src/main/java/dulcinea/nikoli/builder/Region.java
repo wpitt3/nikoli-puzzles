@@ -17,6 +17,10 @@ public class Region {
         this.cells = cells;
     }
 
+    public Integer size() {
+        return cells.size();
+    }
+
     public List<Cell> getCells() {
         return cells;
     }

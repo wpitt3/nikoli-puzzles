@@ -48,7 +48,18 @@ class PuzzleReader {
     }
     
     static Grid readKiller(List<String> lines) {
-        List regions = lines.collect{it.split(',').collect{Integer.parseInt(it)}}
+        List<List<Integer>> regions = lines.collect{it.split(',').collect{Integer.parseInt(it)}}
+        List coords = regions.inject([]){result, it -> result + it.drop(1).collate(2)}
+        List coordsUnique = coords.clone().unique()
+        if (coordsUnique.size() != 81) {
+            (0..<coords.size()).each { index ->
+                if(coordsUnique[index] != coords[index]) {
+                    println coords[index]
+                }
+            }
+        }
+        
+        
         return GridBuilder.build(9, 9, regions, [], true)
     }
 }

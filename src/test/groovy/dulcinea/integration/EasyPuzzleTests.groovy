@@ -23,7 +23,7 @@ class EasyPuzzleTests extends Specification {
           kakuro = GridResolver.resolveGrid(kakuro)
         
         then:
-          !kakuro.isComplete()
+          kakuro.isComplete()
     }
     
     void "Easy Killer"() {
@@ -32,8 +32,13 @@ class EasyPuzzleTests extends Specification {
           
           killer = GridResolver.resolveGrid(killer)
         
+          println(killer.printCells())
+          println(killer.printPossibles())
+        
         then:
           !killer.isComplete()
+          killer.getCell(0, 6).value == 8
+          killer.getCell(1, 6).value == 9
     }
     
 }

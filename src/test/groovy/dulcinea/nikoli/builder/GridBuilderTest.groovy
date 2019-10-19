@@ -1,4 +1,4 @@
-package dulcinea
+package dulcinea.nikoli.builder
 
 import dulcinea.nikoli.builder.Cell
 import dulcinea.nikoli.builder.Grid

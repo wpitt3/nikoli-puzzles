@@ -86,7 +86,7 @@ class GridResolverTest extends Specification {
           result.cells[0][3].possibles == [4,5,6,7,8,9]
     }
     
-    void "Region with naked triple all different, all other cells remove triple"() {
+    void "Region with naked triple withSubset, all other cells remove triple"() {
         when:
           Grid grid = grid()
           
@@ -99,6 +99,22 @@ class GridResolverTest extends Specification {
         then:
           result.cells[0][0].possibles == [1,2]
           result.cells[0][3].possibles == [4,5,6,7,8,9]
+    }
+    
+    void "Region with naked quadruple withSubset, all other cells remove quadruple"() {
+        when:
+          Grid grid = grid()
+          
+          grid.cells[0][0].possibles = [1,2]
+          grid.cells[0][1].possibles = [2,3]
+          grid.cells[0][2].possibles = [3,4]
+          grid.cells[0][3].possibles = [1,4]
+          
+          Grid result = GridResolver.resolveGrid(grid)
+        
+        then:
+          result.cells[0][0].possibles == [1,2]
+          result.cells[0][4].possibles == [5,6,7,8,9]
     }
     
     Grid grid() {

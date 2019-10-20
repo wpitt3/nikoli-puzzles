@@ -22,32 +22,18 @@ public class GridResolver {
             PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
         );
         exastivelyCheckForSingles(getAllCells(grid));
-        grid.getRegions().forEach( region ->
-                PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
-        );
-        exastivelyCheckForSingles(getAllCells(grid));
-        grid.getRegions().forEach( region ->
-                PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
-        );
-        exastivelyCheckForSingles(getAllCells(grid));
-        grid.getRegions().forEach( region -> {
-            NakedXFinder.checkForNakedX(region, 2);
-        });
-        grid.getRegions().forEach( region -> {
-            NakedXFinder.checkForNakedX(region, 3);
-        });
-        grid.getRegions().forEach( region -> {
-            NakedXFinder.checkForNakedX(region, 4);
-        });
-        exastivelyCheckForSingles(getAllCells(grid));
-        grid.getRegions().forEach( region ->
-                PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
-        );
-        exastivelyCheckForSingles(getAllCells(grid));
-        grid.getRegions().forEach( region -> {
-            NakedXFinder.checkForNakedX(region, 3);
-        });
-        exastivelyCheckForSingles(getAllCells(grid));
+        for (int i = 0; i< 30; i++) {
+            grid.getRegions().forEach(region -> {
+                NakedXFinder.checkForNakedX(region, 2);
+                NakedXFinder.checkForNakedX(region, 3);
+                NakedXFinder.checkForNakedX(region, 4);
+                HiddenXFinder.checkForHiddenX(region, 2);
+                HiddenXFinder.checkForHiddenX(region, 3);
+                HiddenXFinder.checkForHiddenX(region, 4);
+                PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region);
+            });
+            exastivelyCheckForSingles(getAllCells(grid));
+        }
         return grid;
     }
 
@@ -71,7 +57,11 @@ public class GridResolver {
 
     private static List<Cell> checkForSingles(List<Cell> updatedCells) {
         List<Cell> updated = NakedXFinder.checkForNakedSingles(updatedCells);
-        updated.addAll(HiddenXFinder.checkForHiddenSingles(getSharedRegions(updatedCells)));
+
+        updated.addAll(getSharedRegions(updatedCells).stream().map( region ->
+            HiddenXFinder.checkForHiddenSingles(region)
+        ).flatMap(List::stream).collect(Collectors.toList()));
+
         return updated.stream().distinct().collect(Collectors.toList());
     }
 

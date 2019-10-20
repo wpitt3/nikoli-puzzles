@@ -117,6 +117,21 @@ class GridResolverTest extends Specification {
           result.cells[0][4].possibles == [5,6,7,8,9]
     }
     
+    void "Region with hidden double, hidden double cells remove double"() {
+        when:
+          Grid grid = grid()
+          
+          (2..8).each { x ->
+              grid.cells[0][x].possibles = [1,2,3,4,5,6,7]
+          }
+          
+          Grid result = GridResolver.resolveGrid(grid)
+        
+        then:
+          result.cells[0][0].possibles == [8,9]
+          result.cells[0][1].possibles == [8,9]
+    }
+    
     Grid grid() {
         return GridBuilder.build(9, 9, [], [], true)
     }

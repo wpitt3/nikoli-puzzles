@@ -31,7 +31,7 @@ public class HiddenXFinder {
         Map<Integer,List<Cell>> hiddenValueToCells = hiddenXValues.stream().collect( Collectors.toMap(Function.identity(), hiddenSingleValue -> {
             return region.getCells().stream().filter(cell -> cell.getPossibles().contains(hiddenSingleValue)).collect(Collectors.toList());
         }));
-        List<Integer> hiddenValues = findHiddenXList(hiddenValueToCells, new ArrayList<>(), new ArrayList<>(), x);
+        List<Integer> hiddenValues = FinderHelper.findHiddenTinRofSizeX(hiddenValueToCells, new ArrayList<>(), new ArrayList<>(), x);
         List<Integer> invertedValues = invertIntegerRange(hiddenValues);
         region.getCells().stream()
             .filter(cell -> hiddenValues.stream()
@@ -50,39 +50,6 @@ public class HiddenXFinder {
                 .filter(y -> possiblesFrequency[y] <= x && possiblesFrequency[y] > 0)
                 .mapToObj(y -> y)
                 .collect(Collectors.toList());
-    }
-
-    private static List<Integer> findHiddenXList(Map<Integer,List<Cell>> hiddenValuesToCells, List<Integer> includedValues, List<Cell> includedCells, int x) {
-        if (hiddenValuesToCells.size() < x) {
-            return new ArrayList<>();
-        }
-        for (Map.Entry<Integer,List<Cell>> valueToCells : hiddenValuesToCells.entrySet()) {
-            if(!includedValues.contains(valueToCells.getKey())) {
-                List<Cell> newIncludedCells = joinLists(includedCells, valueToCells.getValue());
-                if (newIncludedCells.size() <= x) {
-                    if (includedValues.size() == x - 1) {
-                        return addToList(includedValues, valueToCells.getKey());
-                    }
-                    List<Integer> result = findHiddenXList(hiddenValuesToCells, addToList(includedValues, valueToCells.getKey()), newIncludedCells, x);
-                    if (!result.isEmpty()) {
-                        return result;
-                    }
-                }
-            }
-        }
-        return new ArrayList<>();
-    }
-
-    private static <T> List<T> joinLists(List<T> a, List<T> b) {
-        Set<T> newA = new LinkedHashSet<>(a);
-        newA.addAll(b);
-        return new ArrayList<>(newA);
-    }
-
-    private static <T> List<T> addToList(List<T> a, T x) {
-        List<T> newA = new ArrayList<>(a);
-        newA.add(x);
-        return newA;
     }
 
     private static List<Integer> invertIntegerRange(List<Integer> original) {

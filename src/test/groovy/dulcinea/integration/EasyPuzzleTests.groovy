@@ -37,8 +37,19 @@ class EasyPuzzleTests extends Specification {
         
         then:
           !killer.isComplete()
+          killer.getCell(0, 2).value == 5
+          killer.getCell(6, 2).value == 7
+          killer.getCell(0, 3).value == 4
+          killer.getCell(1, 3).value == 1
+          killer.getCell(2, 3).value == 8
+          killer.getCell(6, 3).value == 9
+          killer.getCell(7, 3).value == 5
           killer.getCell(0, 6).value == 8
           killer.getCell(1, 6).value == 9
+          killer.getCell(0, 7).value == 6
+          killer.getCell(0, 8).value == 3
+          killer.getCell(1, 8).value == 2
+        
     }
     
 }

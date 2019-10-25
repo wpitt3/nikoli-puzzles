@@ -2,7 +2,7 @@ package dulcinea.nikoli;
 
 import java.util.*;
 
-public class FinderHelper {
+public class Helper {
 
     public static <T,R> List<T> findHiddenTinRofSizeX(Map<T,List<R>> tsToRs, List<T> includedTs, List<R> includedRs, int x) {
         if (tsToRs.size() < x) {

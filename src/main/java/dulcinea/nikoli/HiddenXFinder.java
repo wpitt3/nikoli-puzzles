@@ -31,7 +31,7 @@ public class HiddenXFinder {
         Map<Integer,List<Cell>> hiddenValueToCells = hiddenXValues.stream().collect( Collectors.toMap(Function.identity(), hiddenSingleValue -> {
             return region.getCells().stream().filter(cell -> cell.getPossibles().contains(hiddenSingleValue)).collect(Collectors.toList());
         }));
-        List<Integer> hiddenValues = FinderHelper.findHiddenTinRofSizeX(hiddenValueToCells, new ArrayList<>(), new ArrayList<>(), x);
+        List<Integer> hiddenValues = Helper.findHiddenTinRofSizeX(hiddenValueToCells, new ArrayList<>(), new ArrayList<>(), x);
         List<Integer> invertedValues = invertIntegerRange(hiddenValues);
         region.getCells().stream()
             .filter(cell -> hiddenValues.stream()

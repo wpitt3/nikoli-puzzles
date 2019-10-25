@@ -28,7 +28,7 @@ class EasyPuzzleTests extends Specification {
     
     void "Easy Killer"() {
         when:
-          Grid killer = PuzzleReader.readPuzzle('/killer.txt')
+          Grid killer = PuzzleReader.readPuzzle('/killer1.txt')
           
           killer = GridResolver.resolveGrid(killer)
         
@@ -36,7 +36,7 @@ class EasyPuzzleTests extends Specification {
           println(killer.printPossibles())
         
         then:
-          !killer.isComplete()
+          killer.isComplete()
           killer.getCell(0, 2).value == 5
           killer.getCell(6, 2).value == 7
           killer.getCell(0, 3).value == 4
@@ -49,7 +49,19 @@ class EasyPuzzleTests extends Specification {
           killer.getCell(0, 7).value == 6
           killer.getCell(0, 8).value == 3
           killer.getCell(1, 8).value == 2
+    }
+    
+    void "Medium Killer"() {
+        when:
+          Grid killer = PuzzleReader.readPuzzle('/killer2.txt')
+          
+          killer = GridResolver.resolveGrid(killer)
+
+          println(killer.printCells())
+          println(killer.printPossibles())
         
+        then:
+          killer.isComplete()
     }
     
 }

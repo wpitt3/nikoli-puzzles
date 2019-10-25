@@ -5,17 +5,16 @@ import dulcinea.nikoli.builder.Grid;
 import dulcinea.nikoli.builder.Region;
 import dulcinea.nikoli.combinations.PossibleRegionsCalculator;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class GridResolver {
 
     public static Grid resolveGrid(Grid grid) {
         setupGrid(grid);
+        grid.getRegions().forEach(region ->
+            RegionSumCalculator.checkForRegionsUncontainedByRegion(region)
+        );
 
         exastivelyCheckForSingles(getAllCells(grid));
         grid.getRegions().forEach( region ->

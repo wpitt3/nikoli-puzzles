@@ -57,6 +57,7 @@ class PuzzleReader {
                     println coords[index]
                 }
             }
+            throw new Exception();
         }
         
         

@@ -61,8 +61,8 @@ class RegionSumCalculatorTest extends Specification {
         List regions = [
                 [12,1,0,2,0,3,0],
                 [10,4,0,5,0],
-                [20,3,1,3,2,4,1,5,1,4,2],
-                [8,5,2,6,2]
+                [20,3,1,4,1,5,1,3,2,4,2],
+                [8,5,2,6,2,7,2]
         ]
         given:
           Grid grid = grid(regions)
@@ -97,6 +97,7 @@ class RegionSumCalculatorTest extends Specification {
                 [45,2,0,3,0,4,0,5,0,3,1,4,1,5,1,3,2,4,2],
                 [8,5,2,6,2,7,2]
         ]
+        
         given:
           Grid grid = grid(regions)
           grid.getCell(2,0).setValue(6)

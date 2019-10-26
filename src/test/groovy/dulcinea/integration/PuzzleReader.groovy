@@ -52,6 +52,7 @@ class PuzzleReader {
         List coords = regions.inject([]){result, it -> result + it.drop(1).collate(2)}
         List coordsUnique = coords.clone().unique()
         if (coordsUnique.size() != 81) {
+            println coordsUnique.size()
             (0..<coords.size()).each { index ->
                 if(coordsUnique[index] != coords[index]) {
                     println coords[index]

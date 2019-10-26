@@ -4,6 +4,9 @@ import dulcinea.nikoli.builder.Cell;
 import dulcinea.nikoli.builder.Grid;
 import dulcinea.nikoli.builder.Region;
 import dulcinea.nikoli.combinations.PossibleRegionsCalculator;
+import dulcinea.nikoli.regionsum.RegionSumCalculator;
+import dulcinea.nikoli.subregion.HiddenXFinder;
+import dulcinea.nikoli.subregion.NakedXFinder;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,10 +1,10 @@
-package dulcinea.nikoli;
+package dulcinea.nikoli.subregion;
 
 import java.util.*;
 
-public class Helper {
+public class SubGroupFinder {
 
-    public static <T,R> List<T> findHiddenTinRofSizeX(Map<T,List<R>> tsToRs, List<T> includedTs, List<R> includedRs, int x) {
+    public static <T,R> List<T> findGroupTinRofSizeX(Map<T,List<R>> tsToRs, List<T> includedTs, List<R> includedRs, int x) {
         if (tsToRs.size() < x) {
             return new ArrayList<>();
         }
@@ -14,7 +14,7 @@ public class Helper {
                 if (includedTs.size() == x - 1) {
                     return addToList(includedTs, tToRs.getKey());
                 }
-                List<T> result = findHiddenTinRofSizeX(tsToRs, addToList(includedTs, tToRs.getKey()), newIncludedRs, x);
+                List<T> result = findGroupTinRofSizeX(tsToRs, addToList(includedTs, tToRs.getKey()), newIncludedRs, x);
                 if (!result.isEmpty()) {
                     return result;
                 }

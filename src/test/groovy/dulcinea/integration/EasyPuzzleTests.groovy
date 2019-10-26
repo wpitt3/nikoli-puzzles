@@ -56,6 +56,9 @@ class EasyPuzzleTests extends Specification {
           Grid killer = PuzzleReader.readPuzzle('/killer2.txt')
           
           killer = GridResolver.resolveGrid(killer)
+  
+          killer.getCell(8,5).setValue(1)
+          killer = GridResolver.resolveGrid(killer)
 
           println(killer.printCells())
           println(killer.printPossibles())

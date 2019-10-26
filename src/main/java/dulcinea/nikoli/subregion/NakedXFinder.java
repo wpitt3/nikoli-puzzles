@@ -1,4 +1,4 @@
-package dulcinea.nikoli;
+package dulcinea.nikoli.subregion;
 
 import dulcinea.nikoli.builder.Cell;
 import dulcinea.nikoli.builder.Region;
@@ -32,7 +32,7 @@ public class NakedXFinder {
                 .collect(Collectors.toList());
 
         Map<Cell, List<Integer>> cellToPossibles = cellsWithXPossible.stream().collect(Collectors.toMap(Function.identity(), cell -> cell.getPossibles()));
-        List<Cell> nakedXCells = Helper.findHiddenTinRofSizeX(cellToPossibles, new ArrayList<>(), new ArrayList<>(), x);
+        List<Cell> nakedXCells = SubGroupFinder.findGroupTinRofSizeX(cellToPossibles, new ArrayList<>(), new ArrayList<>(), x);
 
         if( !nakedXCells.isEmpty()) {
             List<Integer> impossibles = nakedXCells.stream().map(cell -> cell.getPossibles()).flatMap(List::stream).collect(Collectors.toList());

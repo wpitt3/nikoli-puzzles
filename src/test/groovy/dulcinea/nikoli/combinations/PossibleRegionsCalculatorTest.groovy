@@ -11,10 +11,9 @@ class PossibleRegionsCalculatorTest extends Specification {
             Region region = region(3, 2)
         
         when:
-          boolean result = PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
+          PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
 
         then:
-          result
           region.cells.every{ cell ->
               cell.getPossibles() == [1, 2]
           }
@@ -25,10 +24,9 @@ class PossibleRegionsCalculatorTest extends Specification {
           Region region = region(5, 2)
     
         when:
-          boolean result = PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
+          PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
         
         then:
-          result
           region.cells.every{ cell -> cell.getPossibles() == [1, 2, 3, 4]}
     }
     
@@ -37,10 +35,9 @@ class PossibleRegionsCalculatorTest extends Specification {
           Region region = region(18, 4)
     
         when:
-          boolean result = PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
+          PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
         
         then:
-          result
           region.cells.every{ cell -> cell.getPossibles() == [1, 2, 3, 4, 5, 6, 7, 8, 9]}
     }
     
@@ -49,11 +46,41 @@ class PossibleRegionsCalculatorTest extends Specification {
           Region region = region(5, 2)
           region.cells.each{it.setImpossible(1)}
   
-          boolean result = PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
+          PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
         
         then:
-          result
           region.cells.every{ cell -> cell.getPossibles() == [2, 3]}
+    }
+    
+    void "20 total, 4 cells, three have a given value"() {
+        when:
+          Region region = region(20, 4)
+          region.cells[0].value = 7
+          region.cells[2].value = 9
+          region.cells[3].value = 1
+          region.cells[0].updateCellsInSameRegion()
+          region.cells[1].updateCellsInSameRegion()
+          region.cells[2].updateCellsInSameRegion()
+          
+          
+          PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
+        
+        then:
+          region.cells[0].possibles == [7]
+          region.cells[1].possibles == [3]
+    }
+    
+    void "6 total, 2 cells, one cell can not contain 1,2, 1 option"() {
+        when:
+          Region region = region(6, 2)
+          region.cells[0].setImpossible(1)
+          region.cells[0].setImpossible(2)
+          
+          PossibleRegionsCalculator.removeImpossibleCombinationsFromRegion(region)
+        
+        then:
+          region.cells[0].getPossibles() == [4, 5]
+          region.cells[1].getPossibles() == [1, 2]
     }
     
     Region region(Integer total, Integer noOfCells) {

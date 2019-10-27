@@ -40,6 +40,24 @@ class RegionSumCalculatorTest extends Specification {
           !grid.getCell(4,0).possibles.contains(3)
     }
     
+    void "Box with 2 overflowing cells from two different regions, one with value set"() {
+        List regions = [
+                [13,2,0,3,0,3,1],
+                [10,4,0,5,0,6,0],
+                [26,3,2,4,1,5,1,4,2,5,2]
+        ]
+        given:
+          Grid grid = grid(regions)
+          grid.getCell(6,0).setValue(1)
+        
+        when:
+          RegionSumCalculator.checkForRegionsUncontainedByRegion(grid.regions[19])
+        
+        then:
+          grid.getCell(2,0).value == 3
+          !grid.getCell(4,0).possibles.contains(3)
+    }
+    
     void "Box with single underflowing cell"() {
         List regions = [
                 [12,1,0,2,0,3,0],
@@ -57,7 +75,7 @@ class RegionSumCalculatorTest extends Specification {
           !grid.getCell(4,0).possibles.contains(9)
     }
     
-    void "Box with 2 underflowing cells, one with set value"() {
+    void "Box with 2 underflowing cells from 2 regions, one with set value"() {
         List regions = [
                 [12,1,0,2,0,3,0],
                 [10,4,0,5,0],
@@ -76,9 +94,27 @@ class RegionSumCalculatorTest extends Specification {
           !grid.getCell(4,0).possibles.contains(9)
     }
     
+    void "Box with 2 underflowing cells from 1 region, one with set value"() {
+        List regions = [
+                [20,1,0,2,0,3,0,4,0],
+                [30,5,0,3,1,4,1,5,1,3,2,4,2,5,2],
+        ]
+        given:
+          Grid grid = grid(regions)
+          grid.getCell(3,0).setValue(6)
+        
+        when:
+          RegionSumCalculator.checkForRegionsUncontainedByRegion(grid.regions[19])
+        
+        then:
+          grid.getCell(4,0).value == 9
+          !grid.getCell(2,0).possibles.contains(9)
+    }
+    
     void "Box with underflowing and overflowing cells, underflowing value is set"() {
         List regions = [
-                [45,2,0,3,0,4,0,5,0,3,1,4,1,5,1,3,2,4,2],
+                [20,2,0,3,0,4,0],
+                [25,5,0,3,1,4,1,5,1,3,2,4,2],
                 [8,5,2,6,2,7,2]
         ]
         given:
@@ -94,7 +130,8 @@ class RegionSumCalculatorTest extends Specification {
     }
     void "Box with underflowing and overflowing cells, overflowing value is set"() {
         List regions = [
-                [45,2,0,3,0,4,0,5,0,3,1,4,1,5,1,3,2,4,2],
+                [20,2,0,3,0,4,0],
+                [25,5,0,3,1,4,1,5,1,3,2,4,2],
                 [8,5,2,6,2,7,2]
         ]
         
